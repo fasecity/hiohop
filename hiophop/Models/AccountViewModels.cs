@@ -61,7 +61,7 @@ namespace hiophop.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
+    
     public class RegisterViewModel
     {
         [Required]
@@ -79,6 +79,21 @@ namespace hiophop.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        /// <summary>
+        /// new stuff
+        /// </summary>
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Proffession { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string FavGenre { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string FutureGenre { get; set; }
     }
 
     public class ResetPasswordViewModel

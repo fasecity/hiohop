@@ -1,0 +1,39 @@
+﻿@model IEnumerable<hiophop.Models.UserModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@*<table>
+    <thead>
+        <tr>
+            <th>email</th>
+            <th>fav genre</th>
+            <th>name</th>
+            <th>job</th>
+            <th>future genre</th>
+        </tr>
+
+
+
+    </thead>
+
+
+
+<tbody>*@
+    
+    @foreach (var item in Model)
+
+    {
+        
+           
+            <li>@Html.DisplayFor(model => item.email)</li>
+            <li>@Html.DisplayFor(model => item.FavGenre)</li>
+            <li>@Html.DisplayFor(model => item.Name)</li>
+            <li>@Html.DisplayFor(model => item.Proffession)</li>
+            <li>@Html.DisplayFor(model => item.FutureGenre)</li>
+          
+    }
+   

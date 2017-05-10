@@ -1,0 +1,111 @@
+﻿@model hiophop.Models.CarMake
+@{
+    ViewBag.Title = "CarView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>CarView</h2>*@
+
+
+@ViewBag.y
+@ViewBag.x
+
+
+@using (Html.BeginForm(@*"Index", "Car", FormMethod.Post*@))
+{
+    <div>
+        <label for="category">Category</label>
+        <select id="category" name="c" class="form-control"></select>
+        <label for="product">Product</label>
+        <select id="product" name="p"  class="form-control"></select>
+
+        <div id="result"></div>
+
+        <input type="submit" id="Button1" class="btn btn-default" />
+
+
+
+
+    </div>
+}
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Get a list of categories and a list of products of the first category.
+            $.getJSON('/Car/GetCategories', null, function (data) {
+                $.each(data, function () {
+                    $('#category').append('<option value=' +
+                      this.CategoryID + '>' + this.CategoryName + '</option>');
+                });
+                $.getJSON('/Car/GetProducts', { intCatID: $('#category').val() }, function (data) {
+                    $.each(data, function () {
+                        $('#product').append('<option value=' +
+                          this.ProductID + '>' + this.ProductName + '</option>');
+                        
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting products!');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting categories!');
+            });
+
+            // Dropdown list change event.
+            $('#category').change(function () {
+                $('#product option').remove();
+                $.getJSON('/Car/GetProducts', { intCatID: $('#category').val() }, function (data) {
+                    $.each(data, function () {
+                        $('#product').append('<option value=' +
+                          this.ProductID + '>' + this.ProductName + '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting products!');
+                });
+            });
+        });
+
+
+        
+
+        //var result = $('#result');
+
+
+        //$(document).ready(function () {
+        $('#Button1').click(function (event) {
+            event.preventDefault();
+            //var request = $('#category option:selected').text() + "," + $('#product option:selected').text();
+            var postData = {
+                c: $('#category option:selected').text(),
+                p: $('#product option:selected').text()
+            };
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/json;charset=utf-8",
+                    url: '/Car/Index',
+                            //data: "{'Category':'" + document.getElementById('#category') + "','food':'" + document.getElementById('#product')  + " '}",
+                    //        async: false,
+                    //        success: function (response) {
+                    //            $('#category').val('');
+                    //            $('#product').val('');
+                       
+                    //            alert("record has been saved in database");
+
+                    //        },
+                    //        error: function () {
+                    //            console.log('there is some error');
+                    //        }
+
+                    //data: { c: request },
+                    data: postData,
+                    dataType: 'json',
+                    success: function (data) {
+                        result.html( '#category: ' + data.CategoryName + '' + '#product' + data.ProductName)
+                    }
+                    
+             });
+
+            });
+
+        //});
+    </script>
+}

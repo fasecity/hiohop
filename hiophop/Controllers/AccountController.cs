@@ -151,7 +151,7 @@ namespace hiophop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,Name=model.Name,FavGenre=model.FavGenre,Proffession=model.Proffession,FutureGenre=model.FutureGenre };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
